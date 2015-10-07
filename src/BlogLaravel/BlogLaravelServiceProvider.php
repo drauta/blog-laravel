@@ -7,7 +7,7 @@ class BlogLaravelServiceProvider extends ServiceProvider {
 
 	public function boot()
   {
-  
+
   }
 
 
@@ -27,7 +27,14 @@ class BlogLaravelServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		//This load routes files
+		$this->app['router']->group(['namespace' => 'BlogLaravel\Http\Controllers'], function () {
+			require __DIR__.'/Http/routes.php';
+		});
+
+
+
+
 	}
 
 	/**
