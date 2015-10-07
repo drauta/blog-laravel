@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Drauta\\blog-laravel": "src/"
+            "Drauta\\blog-laravel\\": "src/"
         }
     },
     "minimum-stability": "stable"
