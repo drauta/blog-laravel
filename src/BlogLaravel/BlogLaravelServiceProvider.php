@@ -32,9 +32,6 @@ class BlogLaravelServiceProvider extends ServiceProvider {
 			require __DIR__.'/Http/routes.php';
 		});
 
-
-
-
 	}
 
 	/**
