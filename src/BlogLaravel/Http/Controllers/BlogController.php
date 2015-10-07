@@ -1,8 +1,8 @@
 <?php
-namespace BlogLaravel\Http\Controllers;
+namespace Drauta\BlogLaravel\Http\Controllers;
 
 use App\User;
-use BlogLaravel\Post;
+use Drauta\BlogLaravel\Post;
 use App\Http\Controllers\Controller;
 
 
