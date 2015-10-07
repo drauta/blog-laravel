@@ -1,0 +1,22 @@
+{
+  "name": "drauta/blog-laravel",
+  "description": "Add a simple blog to laravel",
+	"keywords": ["blog", "laravel", "easy blog"],
+	"license": "MIT",
+    "authors": [
+        {
+            "name": "Oscar",
+            "email": "od@drauta.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "5.1.*",
+    },
+    "autoload": {
+        "psr-0": {
+            "Drauta\\blog-laravel": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
