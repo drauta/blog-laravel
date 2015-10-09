@@ -1,6 +1,7 @@
 <?php
 
 namespace Drauta\BlogLaravel;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,7 +24,7 @@ class Comment extends Model
      protected $errors;
 
      public function post(){
-         return $this->belongsTo(' Drauta\BlogLaravel\Post');
+         return $this->belongsTo('Drauta\BlogLaravel\Post');
      }
 
      public function author(){
@@ -31,11 +32,11 @@ class Comment extends Model
      }
 
      public function quote(){
-         return $this->belongsTo(' Drauta\BlogLaravel\Comment','quotedComment','id');
+         return $this->belongsTo('Drauta\BlogLaravel\Comment','quotedComment','id');
      }
 
      public function quotedBy(){
-         return $this->hasMany(' Drauta\BlogLaravel\Comment','quotedComment','id');
+         return $this->hasMany('Drauta\BlogLaravel\Comment','quotedComment','id');
      }
 
      public function validate($data){

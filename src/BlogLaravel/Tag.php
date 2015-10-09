@@ -1,5 +1,4 @@
 <?php
-
 namespace Drauta\BlogLaravel;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +12,6 @@ class Tag extends Model
      protected $fillable = array('name');
 
      public function posts(){
-         return $this->belongsToMany(' Drauta\BlogLaravel\Posts');
+         return $this->belongsToMany('Drauta\BlogLaravel\Posts');
      }
 }

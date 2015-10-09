@@ -1,4 +1,5 @@
-<?php namespace Drauta\BlogLaravel;
+<?php
+namespace Drauta\BlogLaravel;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -7,6 +8,17 @@ class BlogLaravelServiceProvider extends ServiceProvider {
 
 	public function boot()
   {
+
+		/*Assets , CKEDITOR*/
+		$this->publishes([
+        __DIR__.'../assets' => public_path('drauta/bloglaravel'),
+    ], 'public');
+		/*Migrations*/
+		$this->publishes([
+	         __DIR__.'/../database/migrations/' => database_path('migrations')
+	     ], 'migrations');
+
+
 
   }
 	/**
@@ -27,6 +39,11 @@ class BlogLaravelServiceProvider extends ServiceProvider {
 		$this->app['router']->group(['namespace' => 'Drauta\BlogLaravel\Http\Controllers'], function () {
 			require __DIR__.'/Http/routes.php';
 		});
+
+		// This load views directory
+		
+		/*De momento se queda asi*/
+		$this->loadViewsFrom(__DIR__.'../views', 'blogLaravel');
 
 	}
 
