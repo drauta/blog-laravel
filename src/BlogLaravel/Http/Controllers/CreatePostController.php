@@ -51,7 +51,7 @@ class CreatePostController extends \App\Http\Controllers\Controller {
 
     public function create(PostFormRequest $request) {
         $tipoLlamada = $request->tipo; // CREAR O UPDATE
-        $idPost = trim($request->idPost); // 0 SI NO EXISTE --> CREAR UNO NUEVO // SI ES DIFERENTE A 0 SI QUE EXISTE --> ACTUALIZAR     
+        $idPost = trim($request->idPost); // 0 SI NO EXISTE --> CREAR UNO NUEVO // SI ES DIFERENTE A 0 SI QUE EXISTE --> ACTUALIZAR
         $cambiarFichero = true;
 
         // RUTA A GUARDAR IMAGEN
@@ -77,7 +77,7 @@ class CreatePostController extends \App\Http\Controllers\Controller {
 
         $nombre = "";
 
-        // NOMBRAR FICHERO Y GUARDAR         
+        // NOMBRAR FICHERO Y GUARDAR
         if ($request->hasFile('file')) {
             if ($request->file('file')->isValid()) {
                 $nombre = $this->nombreFinalArchivo($public_path, $file->getClientOriginalName()); //NOMBRE FICHERO
@@ -88,7 +88,7 @@ class CreatePostController extends \App\Http\Controllers\Controller {
             $cambiarFichero = false;
         }
 
-        if (true) { //BLOQUEADA LA CREACI�N DE POST    
+        if (true) { //BLOQUEADA LA CREACI�N DE POST
             $rutaImagen = "";
             if ($nombre != "") {
                 $rutaImagen = substr($this->rutaImagenesPost . "/" . $nombre, strlen(public_path()));
@@ -100,7 +100,7 @@ class CreatePostController extends \App\Http\Controllers\Controller {
     }
 
     public function listar() {
-        // LISTAR TODOS LOS POSTS 
+        // LISTAR TODOS LOS POSTS
         $posts = Post::orderBy("fechaPublicar", "desc")->paginate(10);
         return view('blogLaravel::admin.listPosts', ['posts' => $posts]);
     }
@@ -116,37 +116,12 @@ class CreatePostController extends \App\Http\Controllers\Controller {
     // APOYO
     //-------------------------------------------------------------
     public function nombreFinalArchivo($public_path, $nombre) {
-
-
         $count = 1;
         while (count(Post::where('image', 'like', '%' . $nombre . '%')->get()) > 0) {
             $extension = substr($nombre, strripos($nombre, "."));
             $nombresinextension = substr($nombre, 0, strripos($nombre, "."));
             $nombre = strval($nombresinextension . "-" . $count .$extension);
         }
-        /* $extension = substr($nombre, strripos($nombre, "."));
-          $nombresinextension = substr($nombre, 0, strripos($nombre, "."));
-          //dd($public_path);
-          $directorio = opendir($public_path);
-          $arrayNombresComunes = array();
-          while ($archivo = readdir($directorio)) {
-          if (!is_dir($archivo)) {
-          if (strpos($archivo, $nombresinextension . "-") !== false || strpos($archivo, $nombre) !== false) {
-          $start = strpos($archivo, "-");
-          if ($start != false) {
-          $numFichero = substr($archivo, $start + 1, strripos($archivo, ".") - $start - 1);
-          $arrayNombresComunes[] = $numFichero;
-          } else {
-          $arrayNombresComunes[] = 0;
-          }
-          }
-          }
-          }
-          if (count($arrayNombresComunes) > 0) {
-          $valorActual = $this->extraerMayor($arrayNombresComunes) + 1;
-          $nombre = $nombresinextension;
-          $nombre = $nombre . "-" . strval($this->extraerMayor($arrayNombresComunes) + 1) . $extension;
-          } */
         return $nombre;
     }
 

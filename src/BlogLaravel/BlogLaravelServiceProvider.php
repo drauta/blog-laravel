@@ -35,6 +35,9 @@ class BlogLaravelServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+
+		/*Publicar vistas*/
+
 		//This load routes files
 		$this->app['router']->group(['namespace' => 'Drauta\BlogLaravel\Http\Controllers'], function () {
 			require __DIR__.'/Http/routes.php';
