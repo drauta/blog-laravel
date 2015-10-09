@@ -3,17 +3,17 @@
 namespace Drauta\BlogLaravel\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 use Drauta\BlogLaravel\Http\Requests\ComentarioPostRequest;
 use Drauta\BlogLaravel\Http\Requests\ResponderComentario;
-
 use Drauta\BlogLaravel\Post;
 use Drauta\BlogLaravel\Comment;
 use App\User;
 use Auth;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Redirect;
+
 
 class ComentarioPostController extends Controller {
 
