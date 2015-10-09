@@ -12,24 +12,22 @@ use Drauta\BlogLaravel\Archivo;
 
 class BlogController extends Controller
 {
-	private $numPorPagina = 10;
 
-	// List of posts
 
 	public function __construct (){
 
 	}
-
     public function index()
     {
         $categorias = Category::all();
-        $posts = Post::where('borrador',false)->orderby("fechaPublicar","desc")->paginate($this->numPorPagina);
-        return view('blogLaravel::front.blog', ['categorias' => $categorias, 'posts' => $posts]);
+        $posts = Post::where('borrador',false)->orderby("fechaPublicar","desc")->paginate(10);
+
+				return view('blogLaravel::front.blog', ['categorias' => $categorias, 'posts' => $posts]);
 
     }
 
 	// See the post
-	public function post($id) {
+	public function show($id) {
         return view('blogLaravel::front.post', ['post' => Post::findOrFail($id), 'categorias'=>$categorias = Category::all()]);
     }
 	// List of posts by category
@@ -41,5 +39,5 @@ class BlogController extends Controller
         $posts = $categoria->posts()->where('borrador',false)->paginate($this->numPorPagina);
         return view('blogLaravel::front.blog', ['categorias' => $categorias, 'posts' => $posts]);
     }
-   	
+
 }
