@@ -11,7 +11,7 @@ class BlogLaravelServiceProvider extends ServiceProvider {
 
 		/*Assets , CKEDITOR*/
 		$this->publishes([
-        __DIR__.'../assets' => public_path('drauta/bloglaravel'),
+        __DIR__.'/../assets/' => public_path('drauta/bloglaravel'),
     ], 'public');
 		/*Migrations*/
 		$this->publishes([
@@ -41,9 +41,9 @@ class BlogLaravelServiceProvider extends ServiceProvider {
 		});
 
 		// This load views directory
-		
+
 		/*De momento se queda asi*/
-		$this->loadViewsFrom(__DIR__.'../views', 'blogLaravel');
+		$this->loadViewsFrom(__DIR__.'/../views', 'blogLaravel');
 
 	}
 
