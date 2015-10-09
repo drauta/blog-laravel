@@ -14,25 +14,6 @@ use Auth;
 
 class CreatePostController extends \App\Http\Controllers\Controller {
 
-    private $rutaImagenesPost;
-
-    public function __construct() {
-        $this->rutaImagenesPost = public_path() . '/drauta/bloglaravel/imgposts/imagenes';
-    }
-
-    public function test() {
-        echo $this->convertirMesLetras("1");
-        $archivos = Archivo::find(1);
-        $mes = "2";
-        $anyo = "2015";
-        $archivo = new Archivo;
-        $archivo->mesNum = $mes;
-        $archivo->anyNum = $anyo;
-        $archivo->mesNombre = $this->convertirMesLetras($mes);
-        $archivo->save();
-        ddd($archivo);
-    }
-
     public function index() {
         $categorias = Category::all();
         //$tags = Tag::all();
@@ -53,11 +34,10 @@ class CreatePostController extends \App\Http\Controllers\Controller {
         $tipoLlamada = $request->tipo; // CREAR O UPDATE
         $idPost = trim($request->idPost); // 0 SI NO EXISTE --> CREAR UNO NUEVO // SI ES DIFERENTE A 0 SI QUE EXISTE --> ACTUALIZAR
         $cambiarFichero = true;
-
-        // RUTA A GUARDAR IMAGEN
-        //$public_path = public_path() . $this->rutaImagenesPost;
-        $public_path = $this->rutaImagenesPost;
         // RECOPILAR VARIABLES
+        //no cal
+
+
         $titulo = $request->titulo;
         $cuerpo = $request->contenido;
         $descripcion = $request->descripcion;
@@ -66,22 +46,15 @@ class CreatePostController extends \App\Http\Controllers\Controller {
         $file = $request->file("file");
         $categoria = $request->categoria;
 
-
-        $author = Auth::id();
-        //esto es feo
-        $author = 1;
-
-
-
+        $author = Auth::user()->id;
         $tags = explode(",", $request->tags);
-
-        $nombre = "";
-
-        // NOMBRAR FICHERO Y GUARDAR
         if ($request->hasFile('file')) {
             if ($request->file('file')->isValid()) {
-                $nombre = $this->nombreFinalArchivo($public_path, $file->getClientOriginalName()); //NOMBRE FICHERO
-                $destinationPath = $public_path;
+
+               //Mirar mimetype
+                $nombre = str_random(40).$request->('file')>guessClientExtension(); //NOMBRE FICHERO
+                $destinationPath = public_path().'/vendor/bloglaravel/imgposts/imagenes';
+
                 $request->file('file')->move($destinationPath, $nombre);
             }
         } else {
@@ -93,43 +66,26 @@ class CreatePostController extends \App\Http\Controllers\Controller {
             if ($nombre != "") {
                 $rutaImagen = substr($this->rutaImagenesPost . "/" . $nombre, strlen(public_path()));
             }
-            $this->generarPost($titulo, $cuerpo, $author, $rutaImagen, $tags, $categoria, $descripcion, $borrador, $idPost, $cambiarFichero);
+            $this->generarPost($titulo, $cuerpo, $author, $destinationPath, $tags, $categoria, $descripcion, $borrador, $idPost, $cambiarFichero);
         }
 
         return redirect()->action("\Drauta\BlogLaravel\Http\Controllers\CreatePostController@listar");
     }
 
     public function listar() {
-        // LISTAR TODOS LOS POSTS
         $posts = Post::orderBy("fechaPublicar", "desc")->paginate(10);
         return view('blogLaravel::admin.listPosts', ['posts' => $posts]);
     }
 
     public function erasePost($id) {
         $post = Post::find($id);
-        if ($post != null) {
-            $post->delete();
-        }
+        $post->delete();
+        //Pasar a ajax
         return redirect()->back();
     }
 
-    // APOYO
-    //-------------------------------------------------------------
-    public function nombreFinalArchivo($public_path, $nombre) {
-        $count = 1;
-        while (count(Post::where('image', 'like', '%' . $nombre . '%')->get()) > 0) {
-            $extension = substr($nombre, strripos($nombre, "."));
-            $nombresinextension = substr($nombre, 0, strripos($nombre, "."));
-            $nombre = strval($nombresinextension . "-" . $count .$extension);
-        }
-        return $nombre;
-    }
 
-    public function extraerMayor($arrayValores) {
-        arsort($arrayValores);
-        return $arrayValores[count($arrayValores) - 1];
-    }
-
+    //Esto es muy feo
     public function generarPost($titulo, $cuerpo, $author, $imagen, $tags, $categoria, $descripcion, $borrador, $idPost, $cambiarFichero) {
         $borradorInicial = "";
         if ($idPost == 0) {
