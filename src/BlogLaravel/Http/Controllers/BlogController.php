@@ -3,7 +3,6 @@ namespace Drauta\BlogLaravel\Http\Controllers;
 
 use App\User;
 use App\Http\Controllers\Controller;
-
 use Drauta\BlogLaravel\Post;
 use Drauta\BlogLaravel\Tag;
 use Drauta\BlogLaravel\Category;
@@ -21,7 +20,6 @@ class BlogController extends Controller
     {
         $categorias = Category::all();
         $posts = Post::where('borrador',false)->orderby("fechaPublicar","desc")->paginate(10);
-
 				return view('blogLaravel::front.blog', ['categorias' => $categorias, 'posts' => $posts]);
 
     }
@@ -32,10 +30,8 @@ class BlogController extends Controller
     }
 	// List of posts by category
 	public function category($id) {
-        // RECUPERAR DATOS
         $categorias = Category::all();
         $categoria = Category::find($id);
-        // POSTS DE LA CATEGORIA PAGINADOS
         $posts = $categoria->posts()->where('borrador',false)->paginate($this->numPorPagina);
         return view('blogLaravel::front.blog', ['categorias' => $categorias, 'posts' => $posts]);
     }
